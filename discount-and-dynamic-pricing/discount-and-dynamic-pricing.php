@@ -2,7 +2,7 @@
 /**
 * Plugin Name: Dynamic Pricing and Discount Rules
 * Description: Dynamic Pricing and Discount Rules For WooComemerce plugin let you create and manage discount rules for your products and cart.
-* Version:     2.2.8
+* Version:     2.2.9
 * Author:      ThemeHigh
 * Author URI:  https://www.themehigh.com
 * Text Domain: discount-and-dynamic-pricing
@@ -10,7 +10,7 @@
 * Requires at least: 5.2
 * Requires PHP: 7.2
 * WC requires at least: 4.0.0
-* WC tested up to: 9.1
+* WC tested up to: 9.4
 */
 
 if(!defined( 'ABSPATH' )) exit;

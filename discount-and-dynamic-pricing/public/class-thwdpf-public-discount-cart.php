@@ -17,7 +17,7 @@ class THWDPF_Public_Discount_Cart extends THWDPF_Public_Discount{
 	public function __construct($plugin_name, $version) {
 		parent::__construct($plugin_name, $version, 'cart');
 
-		add_action('after_setup_theme', array($this, 'define_public_hooks'));
+		add_action('init', array($this, 'define_public_hooks'),20);
 	}
 
 	public function define_public_hooks(){

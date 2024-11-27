@@ -18,16 +18,19 @@ class THWDPF {
 	const TEXT_DOMAIN = 'discount-and-dynamic-pricing';
 
 	public function __construct() {
+		add_action('admin_footer-plugins.php', array($this, 'wdpf_deactivation_form'));
+		add_action('wp_ajax_thwdpf_deactivation_reason', array($this, 'thwdpf_deactivation_reason'));
+
+		add_action('init', array($this, 'init'));
+	}
+
+	public function init(){
 		$this->load_dependencies();
 		$this->set_plugin_info();
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-
-		add_action('admin_footer-plugins.php', array($this, 'wdpf_deactivation_form'));
-		add_action('wp_ajax_thwdpf_deactivation_reason', array($this, 'thwdpf_deactivation_reason'));
-
-		add_action('init', array($this, 'init'));
+		$this->define_constants();
 	}
 
 	private function set_plugin_info(){
@@ -47,7 +50,7 @@ class THWDPF {
 	}
 
 	private function set_locale() {
-		add_action('plugins_loaded', array($this, 'load_plugin_textdomain'));
+		add_action('init', array($this, 'load_plugin_textdomain'));
 	}
 
 	public function load_plugin_textdomain(){
@@ -77,10 +80,6 @@ class THWDPF {
 		add_action('wp_enqueue_scripts', array($plugin_public, 'enqueue_public_styles_and_scripts'));
 	}
 
-	public function init(){
-		$this->define_constants();
-	}
-	
 	private function define_constants(){
 		!defined('THWDPF_ASSETS_URL_ADMIN') && define('THWDPF_ASSETS_URL_ADMIN', THWDPF_URL . 'admin/assets/');
 		!defined('THWDPF_ASSETS_URL_PUBLIC') && define('THWDPF_ASSETS_URL_PUBLIC', THWDPF_URL . 'public/assets/');

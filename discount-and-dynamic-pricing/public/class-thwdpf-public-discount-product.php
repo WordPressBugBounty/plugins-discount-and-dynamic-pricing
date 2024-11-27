@@ -17,15 +17,16 @@ class THWDPF_Public_Discount_Product extends THWDPF_Public_Discount{
 
 	public function __construct($plugin_name, $version) {
 		parent::__construct($plugin_name, $version, 'product');
-		add_action('after_setup_theme', array($this, 'define_public_hooks'));
+		add_action('init', array($this, 'define_public_hooks'),20);
 	}
 
 	public function define_public_hooks(){
+		$priority = apply_filters('thwdpf_before_calculate_totals_hook_priority', 10);
 		add_action('woocommerce_before_add_to_cart_button', array($this, 'render_bulk_discount_info'));
 		//add_action('woocommerce_before_add_to_cart_button', array($this, 'render_price_table'));
 		add_filter('woocommerce_get_price_html', array($this, 'thwdp_strikeout_on_product'), 10, 2);
 		add_filter('woocommerce_add_cart_item_data', array($this, 'woo_add_cart_item_data'), 10, 4);
-		add_action('woocommerce_before_calculate_totals', array($this, 'apply_each_product_discounts'), 10, 1);
+		add_action('woocommerce_before_calculate_totals', array($this, 'apply_each_product_discounts'), $priority, 1);
 		add_filter('woocommerce_cart_item_price', array($this, 'woo_cart_item_price'), 10, 3);
 		add_filter('thwepo_before_calculate_totals_hook_priority', array($this, 'wepo_calculation_priority'));
 		add_action( 'woocommerce_before_mini_cart', array($this,'thwdpf_force_cart_calculation' ));
@@ -234,27 +235,39 @@ class THWDPF_Public_Discount_Product extends THWDPF_Public_Discount{
 
 	private function prepare_discount_data($discount_rules, $item, $prod_price){
 		$discount_data = array();
+		$product = isset($item['data']) ? $item['data'] : false;
 		$old_product_price = $prod_price;
+		$product_price = apply_filters('thwdpf_product_price', $old_product_price, $product, $discount_data);
 		if(is_array($discount_rules)){
-			$product = isset($item['data']) ? $item['data'] : false;
 			$prod_qty = isset($item['quantity']) ? $item['quantity'] : false;
 
 			if(is_numeric($prod_price) && is_numeric($prod_qty) && $prod_qty > 0){
 				$total_discount = 0;
 				$discount_rules = $this->filter_discount_rules($discount_rules, $product, $prod_qty);
+				$current_product_price = $old_product_price;
+				$price_flag = false;
 
 				foreach ($discount_rules as $name => $rule) {
-					$discount = $this->calculate_product_discount($rule, $prod_price, $prod_qty);
-					$prod_price -= $discount;
-			
-					if($discount > 0){
+					$current_product_price = apply_filters('thwdpf_current_product_price', $current_product_price, $price_flag, $rule, $product );
+
+					if(!$price_flag){
+						$old_product_price = $current_product_price;
+					}
+
+					$discount = $this->calculate_product_discount($rule, $current_product_price, $prod_qty);
+					
+					if($discount > 0 && apply_filters('thwdpf_add_rule_discount', true, $rule, $total_discount, $discount, $prod_price, $product)){
 						$total_discount += $discount;
+						if(apply_filters('thwdpf_apply_discount_sequentially', true)){
+							$current_product_price -= $discount;
+							$price_flag = true;
+						}
 					}
 				}
 				$final_price = $total_discount > 0 ? $old_product_price-$total_discount : $old_product_price;
 
 				$discount_data['product_qty'] = $prod_qty;
-				$discount_data['product_price'] = $old_product_price;
+				$discount_data['product_price'] = $product_price;
 				$discount_data['total_discount'] = $total_discount;
 				$discount_data['final_price'] = $final_price < 0 ? 0 : $final_price ;
 			}
@@ -464,6 +477,7 @@ class THWDPF_Public_Discount_Product extends THWDPF_Public_Discount{
 				if(is_array($data)){
 					$discount_rules = isset($data['discount_rules']) ? $data['discount_rules'] : false;
 					$old_product_price = isset($data['original_price']) ? $data['original_price'] : false;
+					$product_price = apply_filters('thwdpf_product_price', $old_product_price, $product, $data);
 
 					//To check bulk discount rules.
 					$cart_obj = WC()->cart;
@@ -480,8 +494,8 @@ class THWDPF_Public_Discount_Product extends THWDPF_Public_Discount{
 								if($product_id === $cart_product_id){
 		   							$discount_data = $this->prepare_discount_data($discount_rules, $cart_item, $old_product_price);
 									$final_price = isset($discount_data['final_price']) ? $discount_data['final_price'] : 0;
-									if($final_price < $old_product_price){
-										$price_html = wc_format_sale_price($old_product_price, $final_price) . $product->get_price_suffix();
+									if($final_price < $product_price){
+										$price_html = wc_format_sale_price($product_price, $final_price) . $product->get_price_suffix();
 									}
 									return $price_html;
 								}	
@@ -511,7 +525,7 @@ class THWDPF_Public_Discount_Product extends THWDPF_Public_Discount{
 									if($min_price > 0){
 										$min_price = $total_discount > 0 ? $min_price-$total_discount : $min_price;
 										$min_price = $min_price < 0 ? 0 : $min_price;
-										$min_price = number_format($min_price, 2);
+										$min_price = (float) $min_price;
 									}
 									$variation_products = $product->get_children();
 									$have_restricted_prods = (count(array_intersect($variation_products, $res_prods))) ? true : false;
@@ -525,17 +539,24 @@ class THWDPF_Public_Discount_Product extends THWDPF_Public_Discount{
 										$flag = 1;
 									}
 									if($flag === 0){
-										$max_price = $total_discount > 0 ? $max_price-$total_discount : $max_price;
+										$total_max_price_discount = 0;
+										foreach ($discount_rules as $name => $rule) {
+											$discount = $this->calculate_product_discount($rule, $max_price, 1);
+											$total_max_price_discount += $discount;
+										}
+										if($total_max_price_discount > 0){
+											$max_price = apply_filters('thwdpf_max_discounted_price', $max_price - $total_max_price_discount, $prices, $discount_rules);
+										}
 									}
 									$max_price = $max_price < 0 ? 0 : $max_price;
-									$max_price = number_format($max_price, 2);
+									$max_price = (float) $max_price;
 									if ($min_price == $max_price && $flag == 0){
 										add_filter( 'woocommerce_show_variation_price','__return_false');
 										$final_price = $total_discount > 0 ? $old_product_price-$total_discount : $old_product_price;
 										$final_price = $final_price < 0 ? 0 : $final_price ;
-										$final_price = number_format($final_price, 2);
-										$old_product_price = number_format($old_product_price, 2);
-										return $price_html = wc_format_sale_price($old_product_price, $final_price) . $product->get_price_suffix();
+										$final_price = (float) $final_price;
+										$product_price = (float) $product_price;
+										return $price_html = wc_format_sale_price($product_price, $final_price) . $product->get_price_suffix();
 									}
 									$separator = '<br>';
 									$price_html = '<del aria-hidden="true">' . $price_html . '</del>' . $separator;
@@ -548,19 +569,32 @@ class THWDPF_Public_Discount_Product extends THWDPF_Public_Discount{
 					}
 					$total_discount = 0;
 					$discount_rules = $this->filter_discount_rules($discount_rules, $product, 1);
+					$current_product_price = $old_product_price;
+					$price_flag = false;
 					foreach ($discount_rules as $name => $rule) {
-						$discount = $this->calculate_product_discount($rule, $old_product_price, 1);
+						$current_product_price = apply_filters('thwdpf_current_product_price', $current_product_price, $price_flag, $rule, $product );
+
+						if(!$price_flag){
+							$old_product_price = $current_product_price;
+						}
+
+						$discount = $this->calculate_product_discount($rule, $current_product_price, 1);
 						$restrictions = $rule->get_property('buy_restrictions');
 						$res_prods += $restrictions->get_property('restricted_products') != NULL ? $restrictions->get_property('restricted_products') : array();
 						$allow_prods += $restrictions->get_property('allowed_products') != NULL ? $restrictions->get_property('allowed_products') : array();
-						if($discount > 0){
+						if($discount > 0 && apply_filters('thwdpf_add_rule_discount', true, $rule, $total_discount, $discount, $current_product_price, $product)){
 							$total_discount += $discount;
+							if(apply_filters('thwdpf_apply_discount_sequentially', true)){
+								$current_product_price -= $discount;
+								$price_flag = true;
+							}
 						}
 					}
 					$final_price = $total_discount > 0 ? $old_product_price-$total_discount : $old_product_price;
 					$final_price = $final_price < 0 ? 0 : $final_price ;
-					$final_price = number_format($final_price, 2);
-					$old_product_price = number_format($old_product_price, 2);
+					$final_price = (float) $final_price;
+					$product_price = (float) $product_price;
+					$old_product_price = (float) $product_price;
 
 					if( $product->is_type('variable') ){
 						$prices = $product->get_variation_prices( true );
@@ -575,7 +609,7 @@ class THWDPF_Public_Discount_Product extends THWDPF_Public_Discount{
 							if($min_price > 0){
 								$min_price = $total_discount > 0 ? $min_price-$total_discount : $min_price;
 							$min_price = $min_price < 0 ? 0 : $min_price;
-							$min_price = number_format($min_price, 2);
+							$min_price = (float) $min_price;
 							}
 							$variation_products = $product->get_children();
 							$have_restricted_prods = (count(array_intersect($variation_products, $res_prods))) ? true : false;
@@ -589,10 +623,17 @@ class THWDPF_Public_Discount_Product extends THWDPF_Public_Discount{
 								$flag = 1;
 							}
 							if($flag == 0){
-								$max_price = $total_discount > 0 ? $max_price-$total_discount : $max_price;
+								$total_max_price_discount = 0;
+								foreach ($discount_rules as $name => $rule) {
+									$discount = $this->calculate_product_discount($rule, $max_price, 1);
+									$total_max_price_discount += $discount;
+								}
+								if($total_max_price_discount > 0){
+									$max_price = apply_filters('thwdpf_max_discounted_price', $max_price - $total_max_price_discount, $prices, $discount_rules);
+								}
 							}	
 							$max_price = $max_price < 0 ? 0 : $max_price;
-							$max_price = number_format($max_price, 2);
+							$max_price = (float) $max_price;
 							if ($min_price == $max_price && $flag == 0){
 								add_filter( 'woocommerce_show_variation_price','__return_false');
 								return $price_html = wc_format_sale_price($old_product_price, $final_price) . $product->get_price_suffix();
