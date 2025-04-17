@@ -78,6 +78,7 @@ class THWDPF_Admin_Form_Product_Rule extends THWDPF_Admin_Form{
 							</aside>
 							<main class="form-container main-full">
 								<form method="post" id="thwdpf_rule_form" action="">
+									<?php wp_nonce_field('update_discount_rules', 'update_discount_rules_nonce'); ?>
                     				<input type="hidden" name="i_action" value="" >
                     				<input type="hidden" name="i_context" value="product" >
                     				<input type="hidden" name="i_name" value="" >

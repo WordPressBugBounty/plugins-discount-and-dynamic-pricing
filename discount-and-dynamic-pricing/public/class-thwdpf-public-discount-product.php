@@ -437,7 +437,7 @@ class THWDPF_Public_Discount_Product extends THWDPF_Public_Discount{
 	}
 
 	public function thwdp_strikeout_on_product( $price_html, $product ) {
-		if(is_admin()){
+		if ( is_admin() && ! wp_doing_ajax() ) {
             return $price_html;
         }
 		if(is_null($product)){
@@ -560,8 +560,8 @@ class THWDPF_Public_Discount_Product extends THWDPF_Public_Discount{
 									}
 									$separator = '<br>';
 									$price_html = '<del aria-hidden="true">' . $price_html . '</del>' . $separator;
-									// $price_html .= '<ins>'.wc_price( $min_price ) . $product->get_price_suffix().'  -  '.wc_price( $max_price ) . $product->get_price_suffix().'</ins>';
-									$price_html .=  '<ins><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">'.$curency_symbol.'</span>'.$min_price.'</bdi></span> - <span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">'.$curency_symbol.'</span>'.$max_price.'</bdi></span></ins>';
+									$price_html .= '<ins>'.wc_price( $min_price ) . $product->get_price_suffix().'  -  '.wc_price( $max_price ) . $product->get_price_suffix().'</ins>';
+									// $price_html .=  '<ins><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">'.$curency_symbol.'</span>'.$min_price.'</bdi></span> - <span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">'.$curency_symbol.'</span>'.$max_price.'</bdi></span></ins>';
 								}
 	    						return $price_html;
 							}	

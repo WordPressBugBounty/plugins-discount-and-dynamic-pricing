@@ -37,7 +37,7 @@ abstract class THWDPF_Public_Discount{
 			}
 		}
 		
-		return $discount;
+		return apply_filters('thwdpf_cart_calculated_discount', $discount, $discount_type, $discount_amount, $total);
 	}
 
 	/********************************************

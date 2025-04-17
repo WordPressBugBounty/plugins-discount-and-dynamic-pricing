@@ -1,15 +1,15 @@
-# Copyright (C) 2024 ThemeHigh
+# Copyright (C) 2025 ThemeHigh
 # This file is distributed under the same license as the Dynamic Pricing and Discount Rules plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Dynamic Pricing and Discount Rules 2.2.9\n"
+"Project-Id-Version: Dynamic Pricing and Discount Rules 2.3.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/discount-and-dynamic-pricing\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-11-25T13:05:49+00:00\n"
+"POT-Creation-Date: 2025-04-08T12:06:27+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: discount-and-dynamic-pricing\n"
@@ -49,38 +49,38 @@ msgstr ""
 msgid "Restrictions"
 msgstr ""
 
-#: admin/class-thwdpf-admin-form-cart-rule.php:95
-#: admin/class-thwdpf-admin-form-product-rule.php:103
+#: admin/class-thwdpf-admin-form-cart-rule.php:96
+#: admin/class-thwdpf-admin-form-product-rule.php:104
 msgid "Back"
 msgstr ""
 
-#: admin/class-thwdpf-admin-form-cart-rule.php:99
-#: admin/class-thwdpf-admin-form-product-rule.php:107
+#: admin/class-thwdpf-admin-form-cart-rule.php:100
+#: admin/class-thwdpf-admin-form-product-rule.php:108
 msgid "Next"
 msgstr ""
 
-#: admin/class-thwdpf-admin-form-cart-rule.php:103
-#: admin/class-thwdpf-admin-form-product-rule.php:111
+#: admin/class-thwdpf-admin-form-cart-rule.php:104
+#: admin/class-thwdpf-admin-form-product-rule.php:112
 msgid "Save & Close"
 msgstr ""
 
-#: admin/class-thwdpf-admin-form-cart-rule.php:120
+#: admin/class-thwdpf-admin-form-cart-rule.php:121
 #: admin/class-thwdpf-admin-settings-rules.php:42
 msgid "Start From"
 msgstr ""
 
-#: admin/class-thwdpf-admin-form-cart-rule.php:124
+#: admin/class-thwdpf-admin-form-cart-rule.php:125
 #: admin/class-thwdpf-admin-settings-rules.php:43
 msgid "End By"
 msgstr ""
 
-#: admin/class-thwdpf-admin-form-cart-rule.php:183
-#: admin/class-thwdpf-admin-form-product-rule.php:207
+#: admin/class-thwdpf-admin-form-cart-rule.php:184
+#: admin/class-thwdpf-admin-form-product-rule.php:208
 msgid "Apply this discount rule if all the below conditions are met."
 msgstr ""
 
-#: admin/class-thwdpf-admin-form-cart-rule.php:200
-#: admin/class-thwdpf-admin-form-product-rule.php:224
+#: admin/class-thwdpf-admin-form-cart-rule.php:201
+#: admin/class-thwdpf-admin-form-product-rule.php:225
 #: admin/assets/js/inc/thwdpf-admin-conditions.js:71
 #: admin/assets/js/inc/thwdpf-admin-conditions.js:88
 #: admin/assets/js/thwdpf-admin.js:606
@@ -88,8 +88,8 @@ msgstr ""
 msgid "Select an option..."
 msgstr ""
 
-#: admin/class-thwdpf-admin-form-cart-rule.php:201
-#: admin/class-thwdpf-admin-form-product-rule.php:226
+#: admin/class-thwdpf-admin-form-cart-rule.php:202
+#: admin/class-thwdpf-admin-form-product-rule.php:227
 #: admin/assets/js/inc/thwdpf-admin-conditions.js:24
 #: admin/assets/js/inc/thwdpf-admin-conditions.js:30
 #: admin/assets/js/thwdpf-admin.js:559
@@ -97,33 +97,33 @@ msgstr ""
 msgid "Cart Quantity"
 msgstr ""
 
-#: admin/class-thwdpf-admin-form-cart-rule.php:202
+#: admin/class-thwdpf-admin-form-cart-rule.php:203
 #: admin/assets/js/inc/thwdpf-admin-conditions.js:31
 #: admin/assets/js/thwdpf-admin.js:566
 msgid "Cart Subtotal"
 msgstr ""
 
-#: admin/class-thwdpf-admin-form-cart-rule.php:208
-#: admin/class-thwdpf-admin-form-product-rule.php:233
+#: admin/class-thwdpf-admin-form-cart-rule.php:209
+#: admin/class-thwdpf-admin-form-product-rule.php:234
 #: admin/assets/js/inc/thwdpf-admin-conditions.js:13
 #: admin/assets/js/thwdpf-admin.js:548
 msgid "Greater than"
 msgstr ""
 
-#: admin/class-thwdpf-admin-form-cart-rule.php:209
-#: admin/class-thwdpf-admin-form-product-rule.php:234
+#: admin/class-thwdpf-admin-form-cart-rule.php:210
+#: admin/class-thwdpf-admin-form-product-rule.php:235
 #: admin/assets/js/inc/thwdpf-admin-conditions.js:14
 #: admin/assets/js/thwdpf-admin.js:549
 msgid "Less than"
 msgstr ""
 
-#: admin/class-thwdpf-admin-form-cart-rule.php:216
-#: admin/class-thwdpf-admin-form-product-rule.php:241
+#: admin/class-thwdpf-admin-form-cart-rule.php:217
+#: admin/class-thwdpf-admin-form-product-rule.php:242
 msgid "AND"
 msgstr ""
 
-#: admin/class-thwdpf-admin-form-cart-rule.php:217
-#: admin/class-thwdpf-admin-form-product-rule.php:242
+#: admin/class-thwdpf-admin-form-cart-rule.php:218
+#: admin/class-thwdpf-admin-form-product-rule.php:243
 msgid "OR"
 msgstr ""
 
@@ -131,7 +131,7 @@ msgstr ""
 msgid "More Restrictions"
 msgstr ""
 
-#: admin/class-thwdpf-admin-form-product-rule.php:225
+#: admin/class-thwdpf-admin-form-product-rule.php:226
 #: admin/assets/js/inc/thwdpf-admin-conditions.js:21
 #: admin/assets/js/thwdpf-admin.js:556
 msgid "Product Price"
@@ -391,42 +391,42 @@ msgstr ""
 msgid "Duplicate"
 msgstr ""
 
-#: admin/class-thwdpf-admin-settings-rules.php:154
+#: admin/class-thwdpf-admin-settings-rules.php:159
 msgid "Recently added rules"
 msgstr ""
 
-#: admin/class-thwdpf-admin-settings-rules.php:173
+#: admin/class-thwdpf-admin-settings-rules.php:178
 msgid "No discount rules found. Click on the \"Add new rule\" button to create new discount rule."
 msgstr ""
 
-#: admin/class-thwdpf-admin-settings-rules.php:235
+#: admin/class-thwdpf-admin-settings-rules.php:247
 msgid "New discount rule added successfully."
 msgstr ""
 
-#: admin/class-thwdpf-admin-settings-rules.php:237
-#: admin/class-thwdpf-admin-settings-rules.php:240
+#: admin/class-thwdpf-admin-settings-rules.php:249
+#: admin/class-thwdpf-admin-settings-rules.php:252
 msgid "Discount rule not added due to an error."
 msgstr ""
 
-#: admin/class-thwdpf-admin-settings-rules.php:250
-#: admin/class-thwdpf-admin-settings-rules.php:272
+#: admin/class-thwdpf-admin-settings-rules.php:269
+#: admin/class-thwdpf-admin-settings-rules.php:298
 msgid "Discount rule updated successfully."
 msgstr ""
 
-#: admin/class-thwdpf-admin-settings-rules.php:252
-#: admin/class-thwdpf-admin-settings-rules.php:255
+#: admin/class-thwdpf-admin-settings-rules.php:271
 #: admin/class-thwdpf-admin-settings-rules.php:274
-#: admin/class-thwdpf-admin-settings-rules.php:278
-#: admin/class-thwdpf-admin-settings-rules.php:307
+#: admin/class-thwdpf-admin-settings-rules.php:300
+#: admin/class-thwdpf-admin-settings-rules.php:304
+#: admin/class-thwdpf-admin-settings-rules.php:340
 msgid "Discount rule not updated due to an error."
 msgstr ""
 
-#: admin/class-thwdpf-admin-settings-rules.php:317
+#: admin/class-thwdpf-admin-settings-rules.php:357
 msgid "Discount rule(s) deleted successfully."
 msgstr ""
 
-#: admin/class-thwdpf-admin-settings-rules.php:319
-#: admin/class-thwdpf-admin-settings-rules.php:322
+#: admin/class-thwdpf-admin-settings-rules.php:359
+#: admin/class-thwdpf-admin-settings-rules.php:362
 msgid "Discount rule(s) not deleted due to an error."
 msgstr ""
 

@@ -3,9 +3,9 @@ Contributors: ThemeHigh
 Donate link: https://themehigh.com/
 Tags: woocommerce dynamic pricing, Bulk discount, Discount rules, discount price, dynamic pricing and discounts
 Requires at least: 5.2
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 2.2.9
+Stable tag: 2.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -129,6 +129,11 @@ To apply for cart discounts,
 7. Date & Time
 
 == Changelog ==
+
+= 2.3.0 =
+* Fixed CSRF vulnerability reported by lucky_buddy via Patchstack.
+* Added WooCommerce 9.8 compatibility.
+* Added WordPress 6.8 compatibility.
 
 = 2.2.9 =
 * Added WooCommerce 9.4 compatibility.

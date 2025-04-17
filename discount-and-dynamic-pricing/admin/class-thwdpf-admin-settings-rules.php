@@ -124,6 +124,11 @@ abstract class THWDPF_Admin_Settings_Rules extends THWDPF_Admin_Settings{
 	}
 
 	public function output_content() {
+
+		$capability = THWDPF_Utils::wdpf_capability();
+		if(!current_user_can($capability)){
+			wp_die();
+		}
 		$action = isset($_POST['i_action']) ? sanitize_key($_POST['i_action']) : false;
 
 		if($action === 'new' || $action === 'copy')
@@ -148,7 +153,7 @@ abstract class THWDPF_Admin_Settings_Rules extends THWDPF_Admin_Settings{
 		<form method="post" id="thwdpf_discount_rules_form" action="">
 			<input type="hidden" name="i_action" value="" >
 			<input type="hidden" name="i_enable_rname" value="" >
-
+			<?php wp_nonce_field('update_discount_rules', 'update_discount_rules_nonce'); ?>
         	<table id="thwdpf_discount_rules" class="wc_gateways widefat" cellspacing="0">
 				<thead>
                 	<?php $this->render_actions_row(__('Recently added rules','discount-and-dynamic-pricing')); ?>
@@ -227,6 +232,13 @@ abstract class THWDPF_Admin_Settings_Rules extends THWDPF_Admin_Settings{
 	abstract public function prepare_rule_from_posted($posted, $action);
 
 	private function add_discount_rule($action) {
+		check_admin_referer('update_discount_rules', 'update_discount_rules_nonce');
+
+		$capability = THWDPF_Utils::wdpf_capability();
+		if(!current_user_can($capability)){
+			wp_die();
+		}
+
 		try {
 			$rule = $this->prepare_rule_from_posted($_POST, $action);
 			$result = $this->update_discount_rule($rule);
@@ -242,6 +254,13 @@ abstract class THWDPF_Admin_Settings_Rules extends THWDPF_Admin_Settings{
 	}
 
 	private function edit_discount_rule($action) {
+		check_admin_referer('update_discount_rules', 'update_discount_rules_nonce');
+
+		$capability = THWDPF_Utils::wdpf_capability();
+		if(!current_user_can($capability)){
+			wp_die();
+		}
+
 		try {
 			$rule = $this->prepare_rule_from_posted($_POST, $action);
 			$result = $this->update_discount_rule($rule);
@@ -257,6 +276,13 @@ abstract class THWDPF_Admin_Settings_Rules extends THWDPF_Admin_Settings{
 	}
 
 	private function edit_discount_rule_status(){
+		check_admin_referer('update_discount_rules', 'update_discount_rules_nonce');
+
+		$capability = THWDPF_Utils::wdpf_capability();
+		if(!current_user_can($capability)){
+			wp_die();
+		}
+
 		try {
 			$rname = $this->get_posted_value($_POST, 'enable_rname', 'key');
 			//$rname = isset($_POST['i_enable_rname']) ? sanitize_key($_POST['i_enable_rname']) : false;
@@ -280,6 +306,13 @@ abstract class THWDPF_Admin_Settings_Rules extends THWDPF_Admin_Settings{
 	}
 
 	private function auto_save_discount_rules(){
+		check_admin_referer('update_discount_rules', 'update_discount_rules_nonce');
+
+		$capability = THWDPF_Utils::wdpf_capability();
+		if(!current_user_can($capability)){
+			wp_die();
+		}
+
 		try {
 			$r_names = !empty( $_POST['i_name'] ) ? $_POST['i_name'] : array();
 			$r_priorities = !empty( $_POST['i_priority'] ) ? $_POST['i_priority'] : array();
@@ -309,6 +342,13 @@ abstract class THWDPF_Admin_Settings_Rules extends THWDPF_Admin_Settings{
 	}
 
 	private function delete_selected_discount_rules(){
+		check_admin_referer('update_discount_rules', 'update_discount_rules_nonce');
+
+		$capability = THWDPF_Utils::wdpf_capability();
+		if(!current_user_can($capability)){
+			wp_die();
+		}
+
 		try {
 			$selected = isset($_POST['select_rule']) ? array_map('sanitize_key', $_POST['select_rule']) : false;
 			$result = $this->delete_discount_rules($selected);
