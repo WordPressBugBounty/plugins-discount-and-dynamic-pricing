@@ -208,7 +208,7 @@ class THWDPF_Admin_Form_Product_Rule extends THWDPF_Admin_Form{
         	<td class=""><?php esc_html_e('Apply this discount rule if all the below conditions are met.', 'discount-and-dynamic-pricing') ?></td>
         </tr>
         <tr>                
-            <td class="<?php echo $wrapper_class; ?>">
+            <td class="<?php echo esc_attr($wrapper_class); ?>">
             	<table class="thwdpf_conditional_rules"><tbody>
                     <tr class="thwdpf_rule_set_row">                
                         <td>

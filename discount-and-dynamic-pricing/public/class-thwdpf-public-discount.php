@@ -179,6 +179,54 @@ abstract class THWDPF_Public_Discount{
 		// if(!$this->is_qualified_category($buy_restrictions, $args)){
 		// 	return true;
 		// }
+		$product_id = isset($args['product_id']) ? $args['product_id'] : false;
+		$categories = isset($args['categories']) ? $args['categories'] : array();
+
+		$allowed_products    = $buy_restrictions->get_property('allowed_products');
+		$restricted_products = $buy_restrictions->get_property('restricted_products');
+		$allowed_cats        = $buy_restrictions->get_property('allowed_cats');
+		$restricted_cats     = $buy_restrictions->get_property('restricted_cats');
+
+		$has_allowed_products    = is_array($allowed_products)    && !empty($allowed_products);
+		$has_restricted_products = is_array($restricted_products) && !empty($restricted_products);
+		$has_allowed_cats        = is_array($allowed_cats)        && !empty($allowed_cats);
+		$has_restricted_cats     = is_array($restricted_cats)     && !empty($restricted_cats);
+
+		/**
+		 * If a product is explicitly restricted, no discount — regardless of allowed lists.
+		 * If a product belongs to a restricted category, no discount — unless it is
+		 * also explicitly in allowed_products (product-level override beats category block).
+		 */
+		if($product_id && $has_restricted_products){
+			if(in_array($product_id, $restricted_products)){
+				return true; // product explicitly restricted
+			}
+		}
+
+		if($has_restricted_cats && !empty($categories)){
+			$in_restricted_cat = !empty(array_intersect($categories, $restricted_cats));
+			if($in_restricted_cat){
+				// Allow override: if product is explicitly in allowed_products, let it through
+				if($has_allowed_products && $product_id && in_array($product_id, $allowed_products)){
+					// pass — allowed_products overrides restricted_cats
+				}else{
+					return true; // product is in a restricted category
+				}
+			}
+		}
+
+		/**
+		 * If any allow list is configured, product must satisfy at least one.
+		 * If no allow lists are configured, rule applies to everything not blocked above.
+		 */
+		if($has_allowed_products || $has_allowed_cats){
+			$product_qualified  = $has_allowed_products && $this->is_qualified_product($buy_restrictions, $args);
+			$category_qualified = $has_allowed_cats     && $this->is_qualified_category($buy_restrictions, $args);
+
+			if(!$product_qualified && !$category_qualified){
+				return true; // not in any allowed list
+			}
+		}
 
 		if(!$this->is_qualified_others($buy_restrictions, $args)){
 			return true;

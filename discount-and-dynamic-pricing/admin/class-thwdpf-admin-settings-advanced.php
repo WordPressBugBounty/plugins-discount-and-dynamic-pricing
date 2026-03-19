@@ -79,6 +79,9 @@ class THWDPF_Admin_Settings_Advanced extends THWDPF_Admin_Settings{
 			'strike_sale_price_on_cart' => array(
 				'name'=>'strike_sale_price_on_cart', 'label'=>__('Strikeout sale price instead of regular price on cart.(if have)', 'discount-and-dynamic-pricing'), 'type'=>'checkbox', 'value'=>'1', 'checked'=>0
 			),
+			'strike_sale_price_on_product' => array(
+				'name'=>'strike_sale_price_on_product', 'label'=>__('Strikeout sale price instead of regular price on shop/product pages.(if have)', 'discount-and-dynamic-pricing'), 'type'=>'checkbox', 'value'=>'1', 'checked'=>0
+			),
 		);
 	}
 
@@ -110,7 +113,7 @@ class THWDPF_Admin_Settings_Advanced extends THWDPF_Admin_Settings{
 				$value = '1';
 
 			}
-			if($name === 'strike_sale_price_on_cart'){
+			if($name === 'strike_sale_price_on_cart' || $name === 'strike_sale_price_on_product'){
 				$value = '0';
 			}
 			$settings[$name] = $value;
@@ -191,8 +194,8 @@ class THWDPF_Admin_Settings_Advanced extends THWDPF_Admin_Settings{
                     </tbody>
                 </table> 
                 <p class="submit">
-					<input type="submit" name="save_settings" class="btn btn-small btn-primary mr-15" value="<?php _e('Save changes', 'discount-and-dynamic-pricing'); ?>">
-                    <input type="submit" name="reset_settings" class="btn btn-small" value="<?php _e('Reset to default','discount-and-dynamic-pricing'); ?>" 
+					<input type="submit" name="save_settings" class="btn btn-small btn-primary mr-15" value="<?php esc_attr_e('Save changes', 'discount-and-dynamic-pricing'); ?>">
+                    <input type="submit" name="reset_settings" class="btn btn-small" value="<?php esc_attr_e('Reset to default','discount-and-dynamic-pricing'); ?>" 
 					onclick="return confirm('Are you sure you want to reset to default settings? all your changes will be deleted.');">
 					<?php wp_nonce_field( 'update_advanced_settings', 'update_advanced_nonce' ); ?>
             	</p>
@@ -211,7 +214,8 @@ class THWDPF_Admin_Settings_Advanced extends THWDPF_Admin_Settings{
 		$this->render_form_elm_row_cb($this->settings_fields['on_shop_page'], $settings, true);
 		$this->render_form_elm_row_cb($this->settings_fields['on_product_category'], $settings, true);
 		$this->render_form_elm_row_title(__('Other', 'discount-and-dynamic-pricing'));
-		$this->render_form_elm_row_cb($this->settings_fields['strike_sale_price_on_cart'], $settings, true);
+		$this->render_form_elm_row_cb($this->settings_fields['strike_sale_price_on_product'], $settings, true);
+		$this->render_form_elm_row_cb($this->settings_fields['strike_sale_price_on_cart'], $settings, true);	
 		?>
 		
 		<?php			
@@ -221,7 +225,7 @@ class THWDPF_Admin_Settings_Advanced extends THWDPF_Admin_Settings{
 	public function render_form_elm_row_title($title=''){
 		?>
 		<tr>
-			<td colspan="3" class="section-title" ><?php echo $title; ?></td>
+			<td colspan="3" class="section-title" ><?php echo esc_html($title); ?></td>
 		</tr>
 		<?php
 	}

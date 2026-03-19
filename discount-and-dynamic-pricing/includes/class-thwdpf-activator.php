@@ -22,7 +22,8 @@ class THWDPF_Activator {
 					"on_product_page" => '1',
 					"on_shop_page" => '1',
 					"on_product_category" => '1',
-					"strike_sale_price_on_cart" => '0'
+					"strike_sale_price_on_cart" => '0',
+					"strike_sale_price_on_product" => '0'
 				);
 			add_option('thwdpf_advanced_settings', $settings);
 	    }

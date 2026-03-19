@@ -1,17 +1,17 @@
-# Copyright (C) 2025 ThemeHigh
-# This file is distributed under the same license as the Dynamic Pricing and Discount Rules plugin.
+# Copyright (C) 2026 ThemeHigh
+# This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Dynamic Pricing and Discount Rules 2.3.0\n"
+"Project-Id-Version: Dynamic Pricing and Discount Rules 2.3.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/discount-and-dynamic-pricing\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-04-08T12:06:27+00:00\n"
+"POT-Creation-Date: 2026-03-13T07:25:11+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.11.0\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: discount-and-dynamic-pricing\n"
 
 #. Plugin Name of the plugin
@@ -21,7 +21,7 @@ msgstr ""
 
 #. Description of the plugin
 #: discount-and-dynamic-pricing.php
-msgid "Dynamic Pricing and Discount Rules For WooComemerce plugin let you create and manage discount rules for your products and cart."
+msgid "Dynamic Pricing and Discount Rules For WooCommerce plugin let you create and manage discount rules for your products and cart."
 msgstr ""
 
 #. Author of the plugin
@@ -257,14 +257,14 @@ msgid "No categories"
 msgstr ""
 
 #: admin/class-thwdpf-admin-form.php:609
-#: admin/assets/js/inc/thwdpf-admin-rule.js:377
-#: admin/assets/js/thwdpf-admin.js:1284
+#: admin/assets/js/inc/thwdpf-admin-rule.js:393
+#: admin/assets/js/thwdpf-admin.js:1300
 msgid "Fixed"
 msgstr ""
 
 #: admin/class-thwdpf-admin-form.php:610
-#: admin/assets/js/inc/thwdpf-admin-rule.js:378
-#: admin/assets/js/thwdpf-admin.js:1285
+#: admin/assets/js/inc/thwdpf-admin-rule.js:394
+#: admin/assets/js/thwdpf-admin.js:1301
 msgid "Percentage"
 msgstr ""
 
@@ -273,32 +273,32 @@ msgid "Range"
 msgstr ""
 
 #: admin/class-thwdpf-admin-form.php:619
-#: admin/assets/js/inc/thwdpf-admin-rule.js:382
-#: admin/assets/js/thwdpf-admin.js:1289
+#: admin/assets/js/inc/thwdpf-admin-rule.js:398
+#: admin/assets/js/thwdpf-admin.js:1305
 msgid "Min. Qty"
 msgstr ""
 
 #: admin/class-thwdpf-admin-form.php:620
-#: admin/assets/js/inc/thwdpf-admin-rule.js:383
-#: admin/assets/js/thwdpf-admin.js:1290
+#: admin/assets/js/inc/thwdpf-admin-rule.js:399
+#: admin/assets/js/thwdpf-admin.js:1306
 msgid "Max. Qty"
 msgstr ""
 
 #: admin/class-thwdpf-admin-form.php:630
-#: admin/assets/js/inc/thwdpf-admin-rule.js:392
-#: admin/assets/js/thwdpf-admin.js:1299
+#: admin/assets/js/inc/thwdpf-admin-rule.js:408
+#: admin/assets/js/thwdpf-admin.js:1315
 msgid "Amount"
 msgstr ""
 
 #: admin/class-thwdpf-admin-form.php:632
-#: admin/assets/js/inc/thwdpf-admin-rule.js:394
-#: admin/assets/js/thwdpf-admin.js:1301
+#: admin/assets/js/inc/thwdpf-admin-rule.js:410
+#: admin/assets/js/thwdpf-admin.js:1317
 msgid "Add new range"
 msgstr ""
 
 #: admin/class-thwdpf-admin-form.php:632
-#: admin/assets/js/inc/thwdpf-admin-rule.js:395
-#: admin/assets/js/thwdpf-admin.js:1302
+#: admin/assets/js/inc/thwdpf-admin-rule.js:411
+#: admin/assets/js/thwdpf-admin.js:1318
 msgid "Remove range"
 msgstr ""
 
@@ -330,39 +330,43 @@ msgstr ""
 msgid "Strikeout sale price instead of regular price on cart.(if have)"
 msgstr ""
 
-#: admin/class-thwdpf-admin-settings-advanced.php:104
+#: admin/class-thwdpf-admin-settings-advanced.php:83
+msgid "Strikeout sale price instead of regular price on shop/product pages.(if have)"
+msgstr ""
+
+#: admin/class-thwdpf-admin-settings-advanced.php:107
 msgid "Settings successfully reset."
 msgstr ""
 
-#: admin/class-thwdpf-admin-settings-advanced.php:156
+#: admin/class-thwdpf-admin-settings-advanced.php:159
 msgid "Your changes were saved."
 msgstr ""
 
-#: admin/class-thwdpf-admin-settings-advanced.php:158
+#: admin/class-thwdpf-admin-settings-advanced.php:161
 msgid "Your changes were not saved due to an error (or you made none!)."
 msgstr ""
 
-#: admin/class-thwdpf-admin-settings-advanced.php:166
+#: admin/class-thwdpf-admin-settings-advanced.php:169
 msgid "General Settings"
 msgstr ""
 
-#: admin/class-thwdpf-admin-settings-advanced.php:194
+#: admin/class-thwdpf-admin-settings-advanced.php:197
 msgid "Save changes"
 msgstr ""
 
-#: admin/class-thwdpf-admin-settings-advanced.php:195
+#: admin/class-thwdpf-admin-settings-advanced.php:198
 msgid "Reset to default"
 msgstr ""
 
-#: admin/class-thwdpf-admin-settings-advanced.php:205
+#: admin/class-thwdpf-admin-settings-advanced.php:208
 msgid "Bulk Pricing Table"
 msgstr ""
 
-#: admin/class-thwdpf-admin-settings-advanced.php:208
+#: admin/class-thwdpf-admin-settings-advanced.php:211
 msgid "Strikout Price"
 msgstr ""
 
-#: admin/class-thwdpf-admin-settings-advanced.php:213
+#: admin/class-thwdpf-admin-settings-advanced.php:216
 msgid "Other"
 msgstr ""
 
@@ -565,15 +569,15 @@ msgstr ""
 msgid "Kindly tell us your reason, so that we can improve"
 msgstr ""
 
-#: public/class-thwdpf-public-discount-product.php:419
+#: public/class-thwdpf-public-discount-product.php:461
 msgid "Quantity"
 msgstr ""
 
-#: public/class-thwdpf-public-discount-product.php:424
+#: public/class-thwdpf-public-discount-product.php:466
 msgid "Discount"
 msgstr ""
 
-#: public/class-thwdpf-public-discount-product.php:425
+#: public/class-thwdpf-public-discount-product.php:467
 msgid "(Per Qty)"
 msgstr ""
 
@@ -592,104 +596,104 @@ msgstr ""
 msgid "Please provide a numeric value for the value field."
 msgstr ""
 
-#: admin/assets/js/inc/thwdpf-admin-rule.js:37
-#: admin/assets/js/thwdpf-admin.js:944
+#: admin/assets/js/inc/thwdpf-admin-rule.js:42
+#: admin/assets/js/thwdpf-admin.js:949
 msgid "Edit Rule"
 msgstr ""
 
-#: admin/assets/js/inc/thwdpf-admin-rule.js:37
-#: admin/assets/js/thwdpf-admin.js:944
+#: admin/assets/js/inc/thwdpf-admin-rule.js:42
+#: admin/assets/js/thwdpf-admin.js:949
 msgid "New Rule"
 msgstr ""
 
-#: admin/assets/js/inc/thwdpf-admin-rule.js:183
-#: admin/assets/js/thwdpf-admin.js:1090
+#: admin/assets/js/inc/thwdpf-admin-rule.js:199
+#: admin/assets/js/thwdpf-admin.js:1106
 msgid "Label is required."
 msgstr ""
 
-#: admin/assets/js/inc/thwdpf-admin-rule.js:188
-#: admin/assets/js/thwdpf-admin.js:1095
+#: admin/assets/js/inc/thwdpf-admin-rule.js:204
+#: admin/assets/js/thwdpf-admin.js:1111
 msgid "Discount Amount is required."
 msgstr ""
 
-#: admin/assets/js/inc/thwdpf-admin-rule.js:190
-#: admin/assets/js/thwdpf-admin.js:1097
+#: admin/assets/js/inc/thwdpf-admin-rule.js:206
+#: admin/assets/js/thwdpf-admin.js:1113
 msgid "Please provide a numeric value for Discount Amount field"
 msgstr ""
 
-#: admin/assets/js/inc/thwdpf-admin-rule.js:192
-#: admin/assets/js/thwdpf-admin.js:1099
+#: admin/assets/js/inc/thwdpf-admin-rule.js:208
+#: admin/assets/js/thwdpf-admin.js:1115
 msgid "Please provide a numeric value between 0 to 100 for Discount Amount field since it is a percentage discount"
 msgstr ""
 
-#: admin/assets/js/inc/thwdpf-admin-rule.js:194
-#: admin/assets/js/thwdpf-admin.js:1101
+#: admin/assets/js/inc/thwdpf-admin-rule.js:210
+#: admin/assets/js/thwdpf-admin.js:1117
 msgid "Please provide a positive numeric value for Discount Amount field"
 msgstr ""
 
-#: admin/assets/js/inc/thwdpf-admin-rule.js:229
-#: admin/assets/js/thwdpf-admin.js:1136
+#: admin/assets/js/inc/thwdpf-admin-rule.js:245
+#: admin/assets/js/thwdpf-admin.js:1152
 msgid "The end date should be a date after the start date."
 msgstr ""
 
-#: admin/assets/js/inc/thwdpf-admin-rule.js:251
-#: admin/assets/js/thwdpf-admin.js:1158
+#: admin/assets/js/inc/thwdpf-admin-rule.js:267
+#: admin/assets/js/thwdpf-admin.js:1174
 msgid "Are you sure you want to delete the selected discount rules?."
 msgstr ""
 
-#: admin/assets/js/inc/thwdpf-admin-rule.js:266
-#: admin/assets/js/thwdpf-admin.js:1173
+#: admin/assets/js/inc/thwdpf-admin-rule.js:282
+#: admin/assets/js/thwdpf-admin.js:1189
 msgid "Are you sure you want to delete the selected discount rule?."
 msgstr ""
 
-#: admin/assets/js/inc/thwdpf-admin-rule.js:271
-#: admin/assets/js/thwdpf-admin.js:1178
+#: admin/assets/js/inc/thwdpf-admin-rule.js:287
+#: admin/assets/js/thwdpf-admin.js:1194
 msgid "No discount rules selected to delete. Please select atleast one."
 msgstr ""
 
-#: admin/assets/js/inc/thwdpf-admin-rule.js:471
-#: admin/assets/js/inc/thwdpf-admin-rule.js:539
-#: admin/assets/js/thwdpf-admin.js:1378
-#: admin/assets/js/thwdpf-admin.js:1446
+#: admin/assets/js/inc/thwdpf-admin-rule.js:487
+#: admin/assets/js/inc/thwdpf-admin-rule.js:555
+#: admin/assets/js/thwdpf-admin.js:1394
+#: admin/assets/js/thwdpf-admin.js:1462
 msgid "Invalid pricing range. Please ensure that all the Min. Qty fields have valid values."
 msgstr ""
 
-#: admin/assets/js/inc/thwdpf-admin-rule.js:476
-#: admin/assets/js/thwdpf-admin.js:1383
+#: admin/assets/js/inc/thwdpf-admin-rule.js:492
+#: admin/assets/js/thwdpf-admin.js:1399
 msgid "Invalid pricing range. Please ensure that all the Max. Qty fields have valid values."
 msgstr ""
 
-#: admin/assets/js/inc/thwdpf-admin-rule.js:481
-#: admin/assets/js/thwdpf-admin.js:1388
+#: admin/assets/js/inc/thwdpf-admin-rule.js:497
+#: admin/assets/js/thwdpf-admin.js:1404
 msgid "Invalid pricing range. Please ensure that all the Discount Type fields have valid values."
 msgstr ""
 
-#: admin/assets/js/inc/thwdpf-admin-rule.js:485
-#: admin/assets/js/thwdpf-admin.js:1392
+#: admin/assets/js/inc/thwdpf-admin-rule.js:501
+#: admin/assets/js/thwdpf-admin.js:1408
 msgid "Invalid pricing range. Please ensure that all the Amount fields have valid values."
 msgstr ""
 
-#: admin/assets/js/inc/thwdpf-admin-rule.js:488
-#: admin/assets/js/thwdpf-admin.js:1395
+#: admin/assets/js/inc/thwdpf-admin-rule.js:504
+#: admin/assets/js/thwdpf-admin.js:1411
 msgid "Invalid pricing range. Please ensure that all the Amount fields have non-negative values."
 msgstr ""
 
-#: admin/assets/js/inc/thwdpf-admin-rule.js:491
-#: admin/assets/js/thwdpf-admin.js:1398
+#: admin/assets/js/inc/thwdpf-admin-rule.js:507
+#: admin/assets/js/thwdpf-admin.js:1414
 msgid "Invalid pricing range for percentage discount. Please ensure that all the Amount fields have values between 0 to 100."
 msgstr ""
 
-#: admin/assets/js/inc/thwdpf-admin-rule.js:496
-#: admin/assets/js/thwdpf-admin.js:1403
+#: admin/assets/js/inc/thwdpf-admin-rule.js:512
+#: admin/assets/js/thwdpf-admin.js:1419
 msgid "Invalid pricing range. Please ensure that the Max. Qty field on the last row have numeric value or blank."
 msgstr ""
 
-#: admin/assets/js/inc/thwdpf-admin-rule.js:499
-#: admin/assets/js/thwdpf-admin.js:1406
+#: admin/assets/js/inc/thwdpf-admin-rule.js:515
+#: admin/assets/js/thwdpf-admin.js:1422
 msgid "Invalid pricing range. Please ensure that the Max. Qty field on the last row have valid value."
 msgstr ""
 
-#: admin/assets/js/inc/thwdpf-admin-rule.js:517
-#: admin/assets/js/thwdpf-admin.js:1424
+#: admin/assets/js/inc/thwdpf-admin-rule.js:533
+#: admin/assets/js/thwdpf-admin.js:1440
 msgid "Please add a valid pricing range."
 msgstr ""

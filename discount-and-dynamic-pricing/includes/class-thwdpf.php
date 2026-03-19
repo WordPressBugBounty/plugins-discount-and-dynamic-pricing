@@ -123,17 +123,17 @@ class THWDPF {
 						<div class="modal-body">
 							<div class="model-header">
 								<img class="th-logo" src="<?php echo esc_url(THWDPF_URL .'admin/assets/css/themehigh.svg'); ?>" alt="themehigh-logo">
-								<span><?php echo __('Quick Feedback', 'discount-and-dynamic-pricing'); ?></span>
+								<span><?php echo esc_html__('Quick Feedback', 'discount-and-dynamic-pricing'); ?></span>
 							</div>
 
 							<!-- <div class="get-support-version-b">
 								<p>We are sad to see you go. We would be happy to fix things for you. Please raise a ticket to get help</p>
-								<a class="thwdpf-link thwdpf-right-link thwdpf-active" target="_blank" href="https://help.themehigh.com/hc/en-us/requests/new?utm_source=thwdpf_free&utm_medium=feedback_form&utm_campaign=get_support"><?php echo __('Get Support', 'discount-and-dynamic-pricing'); ?></a>
+								<a class="thwdpf-link thwdpf-right-link thwdpf-active" target="_blank" href="https://help.themehigh.com/hc/en-us/requests/new?utm_source=thwdpf_free&utm_medium=feedback_form&utm_campaign=get_support"><?php echo esc_html__('Get Support', 'discount-and-dynamic-pricing'); ?></a>
 							</div> -->
 
 							<main class="form-container main-full">
-								<p class="thwdpf-title-text"><?php echo __('If you have a moment, please let us know why you want to deactivate this plugin', 'discount-and-dynamic-pricing'); ?></p>
-								<ul class="deactivation-reason" data-nonce="<?php echo wp_create_nonce('thwdpf_deactivate_nonce'); ?>">
+								<p class="thwdpf-title-text"><?php echo esc_html__('If you have a moment, please let us know why you want to deactivate this plugin', 'discount-and-dynamic-pricing'); ?></p>
+								<ul class="deactivation-reason" data-nonce="<?php echo esc_attr(wp_create_nonce('thwdpf_deactivate_nonce')); ?>">
 									<?php 
 									if($deactivation_reasons){
 										foreach($deactivation_reasons as $key => $reason){
@@ -151,16 +151,16 @@ class THWDPF {
 									}
 									?>
 								</ul>
-								<p class="thwdpf-privacy-cnt"><?php echo __('This form is only for getting your valuable feedback. We do not collect your personal data. To know more read our ', 'discount-and-dynamic-pricing'); ?> <a class="thwdpf-privacy-link" target="_blank" href="<?php echo esc_url('https://www.themehigh.com/privacy-policy/');?>"><?php echo __('Privacy Policy', 'discount-and-dynamic-pricing'); ?></a></p>
+								<p class="thwdpf-privacy-cnt"><?php echo esc_html__('This form is only for getting your valuable feedback. We do not collect your personal data. To know more read our ', 'discount-and-dynamic-pricing'); ?> <a class="thwdpf-privacy-link" target="_blank" href="<?php echo esc_url('https://www.themehigh.com/privacy-policy/');?>"><?php echo esc_html__('Privacy Policy', 'discount-and-dynamic-pricing'); ?></a></p>
 							</main>
 							<footer class="modal-footer">
 								<div class="thwdpf-left">
-									<a class="thwdpf-link thwdpf-left-link thwdpf-deactivate" href="#"><?php echo __('Skip & Deactivate', 'discount-and-dynamic-pricing'); ?></a>
+									<a class="thwdpf-link thwdpf-left-link thwdpf-deactivate" href="#"><?php echo esc_html__('Skip & Deactivate', 'discount-and-dynamic-pricing'); ?></a>
 								</div>
 								<div class="thwdpf-right">
-									<a class="thwdpf-link thwdpf-right-link thwdpf-active" target="_blank" href="https://help.themehigh.com/hc/en-us/requests/new?utm_source=thwdpf_free&utm_medium=feedback_form&utm_campaign=get_support"><?php echo __('Get Support', 'discount-and-dynamic-pricing'); ?></a>
-									<a class="thwdpf-link thwdpf-right-link thwdpf-active thwdpf-submit-deactivate" href="#"><?php echo __('Submit and Deactivate', 'discount-and-dynamic-pricing'); ?></a>
-									<a class="thwdpf-link thwdpf-right-link thwdpf-close" href="#"><?php echo __('Cancel', 'discount-and-dynamic-pricing'); ?></a>
+									<a class="thwdpf-link thwdpf-right-link thwdpf-active" target="_blank" href="https://help.themehigh.com/hc/en-us/requests/new?utm_source=thwdpf_free&utm_medium=feedback_form&utm_campaign=get_support"><?php echo esc_html__('Get Support', 'discount-and-dynamic-pricing'); ?></a>
+									<a class="thwdpf-link thwdpf-right-link thwdpf-active thwdpf-submit-deactivate" href="#"><?php echo esc_html__('Submit and Deactivate', 'discount-and-dynamic-pricing'); ?></a>
+									<a class="thwdpf-link thwdpf-right-link thwdpf-close" href="#"><?php echo esc_html__('Cancel', 'discount-and-dynamic-pricing'); ?></a>
 								</div>
 							</footer>
 						</div>
@@ -372,23 +372,23 @@ class THWDPF {
 	                	reason_input += '<input type="checkbox" id="th-snooze" name="th-snooze" class="th-snooze-checkbox">';
 	                	reason_input += '<label for="th-snooze">Snooze this panel while troubleshooting</label>';
 	                	reason_input += '<select name="th-snooze-time" class="th-snooze-select" disabled>';
-	                	reason_input += '<option value="<?php echo HOUR_IN_SECONDS ?>">1 Hour</option>';
-	                	reason_input += '<option value="<?php echo 12*HOUR_IN_SECONDS ?>">12 Hour</option>';
-	                	reason_input += '<option value="<?php echo DAY_IN_SECONDS ?>">24 Hour</option>';
-	                	reason_input += '<option value="<?php echo WEEK_IN_SECONDS ?>">1 Week</option>';
-	                	reason_input += '<option value="<?php echo MONTH_IN_SECONDS ?>">1 Month</option>';
+	                	reason_input += '<option value="<?php echo esc_attr(HOUR_IN_SECONDS) ?>">1 Hour</option>';
+	                	reason_input += '<option value="<?php echo esc_attr(12*HOUR_IN_SECONDS) ?>">12 Hour</option>';
+	                	reason_input += '<option value="<?php echo esc_attr(DAY_IN_SECONDS) ?>">24 Hour</option>';
+	                	reason_input += '<option value="<?php echo esc_attr(WEEK_IN_SECONDS) ?>">1 Week</option>';
+	                	reason_input += '<option value="<?php echo esc_attr(MONTH_IN_SECONDS) ?>">1 Month</option>';
 	                	reason_input += '</select>';
 	                	reason_input += '</div>';
 	                }else if('reviewlink' == type){
 	                	reason_input += '<div class="reason-input thwdpf-review-link">';
 	                	/*
-	                	reason_input += '<?php _e('Deactivate and ', 'discount-and-dynamic-pricing');?>'
+	                	reason_input += '<?php esc_html_e('Deactivate and ', 'discount-and-dynamic-pricing');?>'
 	                	reason_input += '<a href="#" target="_blank" class="thwdpf-review-and-deactivate">';
-	                	reason_input += '<?php _e('leave a review', 'discount-and-dynamic-pricing'); ?>';
+	                	reason_input += '<?php esc_html_e('leave a review', 'discount-and-dynamic-pricing'); ?>';
 	                	reason_input += '<span class="thwdpf-rating-link"> &#9733;&#9733;&#9733;&#9733;&#9733; </span>';
 	                	reason_input += '</a>';
 	                	*/
-	                	reason_input += '<input type="hidden" value="<?php _e('Upgraded', 'discount-and-dynamic-pricing');?>">';
+	                	reason_input += '<input type="hidden" value="<?php esc_attr_e('Upgraded', 'discount-and-dynamic-pricing');?>">';
 	                	reason_input += '</div>';
 	                }
 

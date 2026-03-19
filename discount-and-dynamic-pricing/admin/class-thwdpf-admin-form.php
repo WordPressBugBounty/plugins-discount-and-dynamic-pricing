@@ -189,12 +189,12 @@ class THWDPF_Admin_Form {
 				$input_cell_props = !empty($args['input_cell_props']) ? $args['input_cell_props'] : '';
 
 				?>
-				<td <?php echo $label_cell_props; ?> ><?php echo $label_html; ?></td>
+				<td <?php echo esc_attr($label_cell_props); ?> ><?php echo wp_kses_post($label_html); ?></td>
 				<?php $this->render_form_fragment_tooltip($tooltip); ?>
-				<td <?php echo $input_cell_props; ?> ><?php echo $field_html; ?></td>
+				<td <?php echo esc_attr($input_cell_props); ?> ><?php echo wp_kses($field_html, $this->get_allowed_html_tags_form()); ?></td>
 				<?php
 			}else{
-				echo $field_html;
+				echo wp_kses($field_html, $this->get_allowed_html_tags_form());
 			}
 		}
 	}
@@ -464,7 +464,7 @@ class THWDPF_Admin_Form {
 			$tooltip = __($tooltip, 'discount-and-dynamic-pricing');
 			?>
 			<td class="tip" style="width: 26px; padding:0px;">
-				<a href="javascript:void(0)" title="<?php echo $tooltip; ?>" class="thwdpf_tooltip"><img src="<?php echo THWDPF_ASSETS_URL_ADMIN; ?>/css/help.png" title=""/></a>
+				<a href="javascript:void(0)" title="<?php echo esc_attr($tooltip); ?>" class="thwdpf_tooltip"><img src="<?php echo esc_url(THWDPF_ASSETS_URL_ADMIN); ?>/css/help.png" title=""/></a>
 			</td>
 			<?php
 		}else{
@@ -477,7 +477,7 @@ class THWDPF_Admin_Form {
 	public function render_form_fragment_h_spacing($padding = 5){
 		$style = $padding ? 'padding-top:'.$padding.'px;' : '';
 		?>
-        <tr><td colspan="3" style="<?php echo $style ?>"></td></tr>
+        <tr><td colspan="3" style="<?php echo esc_attr($style) ?>"></td></tr>
         <?php
 	}
 
@@ -495,21 +495,21 @@ class THWDPF_Admin_Form {
 		$style .= $args['border-style'] ? ' border-bottom:'.$args['border-width'].' '.$args['border-style'].' '.$args['border-color'].';' : '';
 
 		?>
-        <tr><td colspan="<?php echo $args['colspan']; ?>" style="<?php echo $style; ?>"><?php echo $args['content']; ?></td></tr>
+        <tr><td colspan="<?php echo esc_attr($args['colspan']); ?>" style="<?php echo esc_attr($style); ?>"><?php echo wp_kses_post($args['content']); ?></td></tr>
         <?php
 	}
 
 	public function render_form_field_blank($colspan = 3){
 		?>
-        <td colspan="<?php echo $colspan; ?>">&nbsp;</td>
+        <td colspan="<?php echo esc_attr($colspan); ?>">&nbsp;</td>
         <?php
 	}
 
 	public function render_form_section_separator($props, $atts=array()){
 		?>
-		<tr valign="top"><td colspan="<?php echo $props['colspan']; ?>" style="height:10px;"></td></tr>
-		<tr valign="top"><td colspan="<?php echo $props['colspan']; ?>" class="thpladmin-form-section-title" ><?php echo $props['title']; ?></td></tr>
-		<tr valign="top"><td colspan="<?php echo $props['colspan']; ?>" style="height:0px;"></td></tr>
+		<tr valign="top"><td colspan="<?php echo esc_attr($props['colspan']); ?>" style="height:10px;"></td></tr>
+		<tr valign="top"><td colspan="<?php echo esc_attr($props['colspan']); ?>" class="thpladmin-form-section-title" ><?php echo esc_html($props['title']); ?></td></tr>
+		<tr valign="top"><td colspan="<?php echo esc_attr($props['colspan']); ?>" style="height:0px;"></td></tr>
 		<?php
 	}
 
@@ -592,11 +592,11 @@ class THWDPF_Admin_Form {
 		$label_html = $this->prepare_form_field_label($label, $sublabel);
 		?>
 		<tr class="<?php echo esc_attr( $row_class ); ?>">
-			<td class="label"><?php echo $label_html; ?></td>
+			<td class="label"><?php echo wp_kses_post($label_html); ?></td>
 			<?php $this->render_form_fragment_tooltip($tooltip); ?>
 			<td class="field">
-	    		<?php echo $this->render_form_field_element_datepicker($date, $this->cell_props_DTD, false); ?>
-	    		<?php echo $this->render_form_field_element_timepicker($time, $this->cell_props_DTT, false); ?>
+	    		<?php echo wp_kses($this->render_form_field_element_datepicker($date, $this->cell_props_DTD, false), $this->get_allowed_html_tags_form()); ?>
+	    		<?php echo wp_kses($this->render_form_field_element_timepicker($time, $this->cell_props_DTT, false), $this->get_allowed_html_tags_form()); ?>
 	    	</td>
 	    </tr>
 		<?php
@@ -668,6 +668,63 @@ class THWDPF_Admin_Form {
 			}
 		}
 		return $field_html;
+	}
+
+	private function get_allowed_html_tags_form(){
+		return array(
+			'input' => array(
+				'type'        => true,
+				'name'        => true,
+				'style'       => true,
+				'class'       => true,
+				'value'       => true,
+				'min'         => true,
+				'max'         => true,
+				'onchange'    => true,
+				'disabled'    => true,
+				'placeholder' => true,
+				'id'          => true,
+				'checked'     => true,
+			),
+			'select' => array(
+				'name'             => true,
+				'style'            => true,
+				'class'            => true,
+				'onchange'         => true,
+				'disabled'         => true,
+				'multiple'         => true,
+				'data-value'       => true,
+				'data-placeholder' => true,
+			),
+			'option' => array(
+				'value'    => true,
+				'selected' => true,
+			),
+			'optgroup' => array(
+				'label' => true,
+			),
+			'textarea' => array(
+				'name'        => true,
+				'style'       => true,
+				'class'       => true,
+				'onchange'    => true,
+				'disabled'    => true,
+				'placeholder' => true,
+				'rows'        => true,
+				'cols'        => true,
+			),
+			'div' => array(
+				'class' => true,
+				'style' => true,
+			),
+			'i' => array(
+				'class' => true,
+			),
+			'span' => array(
+				'class' => true,
+				'style' => true,
+			),
+		);
 	}
 }
 

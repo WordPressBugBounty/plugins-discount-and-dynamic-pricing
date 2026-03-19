@@ -90,8 +90,8 @@ class THWDPF_Public_Discount_Product extends THWDPF_Public_Discount{
 			$sale_price = $this->get_product_price( $product );
 
 			$settings = THWDPF_Utils::get_advanced_settings();
-			$strike_sale_price = THWDPF_Utils::get_setting_value($settings, 'strike_sale_price_on_cart');
-			if(apply_filters( 'thwdpf_strikeout_sale_price_in_cart', $strike_sale_price )){
+			$strike_sale_price_on_cart = THWDPF_Utils::get_setting_value($settings, 'strike_sale_price_on_cart');
+			if(apply_filters( 'thwdpf_strikeout_sale_price_in_cart', $strike_sale_price_on_cart )){
 				if( $product->get_sale_price() > $product->get_price() ){
 					$reg_price = $product->get_sale_price();
 				}
@@ -179,12 +179,54 @@ class THWDPF_Public_Discount_Product extends THWDPF_Public_Discount{
 
 					$restrictions = $rule->get_property('buy_restrictions');
 
-					if(!$this->is_qualified_product($restrictions, $prod_summary)){
-						continue;
+					// if(!$this->is_qualified_product($restrictions, $prod_summary)){
+					// 	continue;
+					// }
+
+					// if(!$this->is_qualified_category($restrictions, $prod_summary)){
+					// 	continue;
+					// }
+					$product_id = isset($prod_summary['product_id']) ? $prod_summary['product_id'] : false;
+					$categories = isset($prod_summary['categories']) ? $prod_summary['categories'] : array();
+
+					$allowed_products    = $restrictions->get_property('allowed_products');
+					$restricted_products = $restrictions->get_property('restricted_products');
+					$allowed_cats        = $restrictions->get_property('allowed_cats');
+					$restricted_cats     = $restrictions->get_property('restricted_cats');
+
+					$has_allowed_products    = is_array($allowed_products)    && !empty($allowed_products);
+					$has_restricted_products = is_array($restricted_products) && !empty($restricted_products);
+					$has_allowed_cats        = is_array($allowed_cats)        && !empty($allowed_cats);
+					$has_restricted_cats     = is_array($restricted_cats)     && !empty($restricted_cats);
+
+					if($product_id && $has_restricted_products){
+						if(in_array($product_id, $restricted_products)){
+							continue; // product explicitly restricted
+						}
 					}
 
-					if(!$this->is_qualified_category($restrictions, $prod_summary)){
-						continue;
+					if($has_restricted_cats && !empty($categories)){
+						$in_restricted_cat = !empty(array_intersect($categories, $restricted_cats));
+						if($in_restricted_cat){
+							// allowed_products overrides restricted_cats
+							if($has_allowed_products && $product_id && in_array($product_id, $allowed_products)){
+							}else{
+								continue; 
+							}
+						}
+					}
+
+					/**
+					 * If any allow list is configured, product must satisfy at least one.
+					 * If no allow lists are configured, rule applies to everything not blocked above.
+					 */
+					if($has_allowed_products || $has_allowed_cats){
+						$product_qualified  = $has_allowed_products && $this->is_qualified_product($restrictions, $prod_summary);
+						$category_qualified = $has_allowed_cats     && $this->is_qualified_category($restrictions, $prod_summary);
+
+						if(!$product_qualified && !$category_qualified){
+							continue; // not in any allowed list
+						}
 					}
 
 					$valid_rules[$name] = $rule;
@@ -476,8 +518,10 @@ class THWDPF_Public_Discount_Product extends THWDPF_Public_Discount{
 				$curency_symbol = empty(get_woocommerce_currency_symbol()) ? false : get_woocommerce_currency_symbol();
 				if(is_array($data)){
 					$discount_rules = isset($data['discount_rules']) ? $data['discount_rules'] : false;
-					$old_product_price = isset($data['original_price']) ? $data['original_price'] : false;
-					$product_price = apply_filters('thwdpf_product_price', $old_product_price, $product, $data);
+					$old_product_price = isset($data['original_price']) ? (float)$data['original_price'] : 0.0;
+					$product_price = (float)apply_filters('thwdpf_product_price', $old_product_price, $product, $data);
+					$strike_sale_price_on_product = THWDPF_Utils::get_setting_value($settings, 'strike_sale_price_on_product');
+					$strike_sale_price_on_product = apply_filters( 'thwdpf_strikeout_sale_price_in_product', $strike_sale_price_on_product );
 
 					//To check bulk discount rules.
 					$cart_obj = WC()->cart;
@@ -493,9 +537,10 @@ class THWDPF_Public_Discount_Product extends THWDPF_Public_Discount{
 							if(in_array($prod_type, $product_types) ){
 								if($product_id === $cart_product_id){
 		   							$discount_data = $this->prepare_discount_data($discount_rules, $cart_item, $old_product_price);
-									$final_price = isset($discount_data['final_price']) ? $discount_data['final_price'] : 0;
+									$final_price = isset($discount_data['final_price']) ? (float)$discount_data['final_price'] : 0.0;
 									if($final_price < $product_price){
-										$price_html = wc_format_sale_price($product_price, $final_price) . $product->get_price_suffix();
+										$display_from_price = $strike_sale_price_on_product ? $product_price : (float)$product->get_regular_price();
+										$price_html = wc_format_sale_price($display_from_price, $final_price) . $product->get_price_suffix();
 									}
 									return $price_html;
 								}	
@@ -514,10 +559,10 @@ class THWDPF_Public_Discount_Product extends THWDPF_Public_Discount{
 								}
 								$total_discount = isset($discount_data['total_discount']) ? $discount_data['total_discount'] : 0;
 								$prices = $product->get_variation_prices( true );
-								$min_price = current( $prices['price'] );
-								$max_price = end( $prices['price'] );
-								$min_reg_price = current( $prices['regular_price'] );
-								$max_reg_price = end( $prices['regular_price'] );
+								$min_price = (float)current( $prices['price'] );
+								$max_price = (float)end( $prices['price'] );
+								$min_reg_price = (float)current( $prices['regular_price'] );
+								$max_reg_price = (float)end( $prices['regular_price'] );
 								if ( $min_price <= $max_price && $total_discount > 0) {
 									if($min_price == $max_price){
 										add_filter( 'woocommerce_show_variation_price','__return_true');
@@ -551,19 +596,27 @@ class THWDPF_Public_Discount_Product extends THWDPF_Public_Discount{
 									$max_price = $max_price < 0 ? 0 : $max_price;
 									$max_price = (float) $max_price;
 									if ($min_price == $max_price && $flag == 0){
-										add_filter( 'woocommerce_show_variation_price','__return_false');
-										$final_price = $total_discount > 0 ? $old_product_price-$total_discount : $old_product_price;
-										$final_price = $final_price < 0 ? 0 : $final_price ;
+										add_filter( 'woocommerce_show_variation_price','__return_true');
+										$final_price = $total_discount > 0 ? (float)$old_product_price-$total_discount : (float)$old_product_price;
+										$final_price = $final_price < 0 ? 0.0 : $final_price ;
 										$final_price = (float) $final_price;
 										$product_price = (float) $product_price;
-										return $price_html = wc_format_sale_price($product_price, $final_price) . $product->get_price_suffix();
+
+										$display_from_price = $strike_sale_price_on_product ? $product_price : (float)$product->get_regular_price();
+										return $price_html = wc_format_sale_price($display_from_price, $final_price) . $product->get_price_suffix();
 									}
 									$separator = '<br>';
-									$price_html = '<del aria-hidden="true">' . $price_html . '</del>' . $separator;
+									//$price_html = '<del aria-hidden="true">' . $price_html . '</del>' . $separator;
+									if(!$strike_sale_price_on_product && ($min_reg_price > 0 || $max_reg_price > 0)){
+										$variation_price_html = wc_price($min_reg_price) . ' - ' . wc_price($max_reg_price); // regular range
+									} else {
+										$variation_price_html = $price_html; // sale range — only when setting is on
+									}
+									$price_html = '<del>' . $variation_price_html . '</del>' . $separator;
 									$price_html .= '<ins>'.wc_price( $min_price ) . $product->get_price_suffix().'  -  '.wc_price( $max_price ) . $product->get_price_suffix().'</ins>';
 									// $price_html .=  '<ins><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">'.$curency_symbol.'</span>'.$min_price.'</bdi></span> - <span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">'.$curency_symbol.'</span>'.$max_price.'</bdi></span></ins>';
 								}
-	    						return $price_html;
+								return $price_html;
 							}	
 						}
 					}
@@ -591,17 +644,17 @@ class THWDPF_Public_Discount_Product extends THWDPF_Public_Discount{
 						}
 					}
 					$final_price = $total_discount > 0 ? $old_product_price-$total_discount : $old_product_price;
-					$final_price = $final_price < 0 ? 0 : $final_price ;
+					$final_price = $final_price < 0 ? 0.0 : $final_price ;
 					$final_price = (float) $final_price;
 					$product_price = (float) $product_price;
-					$old_product_price = (float) $product_price;
+					$display_from_price = $strike_sale_price_on_product ? $product_price : (float)$product->get_regular_price();
 
 					if( $product->is_type('variable') ){
 						$prices = $product->get_variation_prices( true );
-						$min_price = current( $prices['price'] );
-						$max_price = end( $prices['price'] );
-						$min_reg_price = current( $prices['regular_price'] );
-						$max_reg_price = end( $prices['regular_price'] );
+						$min_price = (float)current( $prices['price'] );
+						$max_price = (float)end( $prices['price'] );
+						$min_reg_price = (float)current( $prices['regular_price'] );
+						$max_reg_price = (float)end( $prices['regular_price'] );
 						if ( $min_price <= $max_price && $total_discount > 0) {
 							if($min_price == $max_price){
 								add_filter( 'woocommerce_show_variation_price','__return_true');
@@ -636,19 +689,25 @@ class THWDPF_Public_Discount_Product extends THWDPF_Public_Discount{
 							$max_price = (float) $max_price;
 							if ($min_price == $max_price && $flag == 0){
 								add_filter( 'woocommerce_show_variation_price','__return_false');
-								return $price_html = wc_format_sale_price($old_product_price, $final_price) . $product->get_price_suffix();
+								return $price_html = wc_format_sale_price($display_from_price, $final_price) . $product->get_price_suffix();
 							}
 							$separator = '<br>';
-							$price_html = '<del aria-hidden="true">' . $price_html . '</del>' . $separator;
+							//$price_html = '<del aria-hidden="true">' . $price_html . '</del>' . $separator;
+							if(!$strike_sale_price_on_product && ($min_reg_price > 0 || $max_reg_price > 0)){
+								$variation_price_html = wc_price($min_reg_price) . ' - ' . wc_price($max_reg_price); // regular range
+							} else {
+								$variation_price_html = $price_html; //sale range — only when setting is on
+							}
+							$price_html = '<del>' . $variation_price_html . '</del>' . $separator;
 							$price_html .= '<ins>'.wc_price( $min_price ) . $product->get_price_suffix().'  -  '.wc_price( $max_price ) . $product->get_price_suffix().'</ins>';
 							// $price_html .=  '<ins><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">'.$curency_symbol.'</span>'.$min_price.'</bdi></span> - <span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">'.$curency_symbol.'</span>'.$max_price.'</bdi></span></ins>';
 						}
     					return $price_html;
     				}	
-					if($final_price < $old_product_price){
+					if($final_price < $display_from_price){
 						// $curency_symbol = empty(get_woocommerce_currency_symbol()) ? false : get_woocommerce_currency_symbol();
 						// $price_html = '<del aria-hidden="true"><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">'.$curency_symbol.'</span>'.$old_product_price.'</bdi></span></del> <ins><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">'.$curency_symbol.'</span>'.$final_price.'</bdi></span></ins>';
-						$price_html = wc_format_sale_price($old_product_price, $final_price) . $product->get_price_suffix();
+						$price_html = wc_format_sale_price($display_from_price, $final_price) . $product->get_price_suffix();
 					}
 				}
 			}

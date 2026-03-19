@@ -52,9 +52,9 @@ abstract class THWDPF_Admin_Settings_Rules extends THWDPF_Admin_Settings{
 		<tr class="actions">
 	        <th colspan="5" class="title"><?php esc_html_e($title, 'discount-and-dynamic-pricing'); ?></th>
 	        <th colspan="3">
-	            <button type="button" name="add_rules" class="btn icon-btn btn-primary right" onclick="thwdpfOpenNewRuleForm(this, '<?php echo $this->context; ?>')"><i class="dashicons dashicons-insert"></i><?php esc_html_e('Add new rule', 'discount-and-dynamic-pricing') ?></button>
+	            <button type="button" name="add_rules" class="btn icon-btn btn-primary right" onclick="thwdpfOpenNewRuleForm(this, '<?php echo esc_attr($this->context); ?>')"><i class="dashicons dashicons-insert"></i><?php esc_html_e('Add new rule', 'discount-and-dynamic-pricing') ?></button>
 
-	            <button type="button" name="delete_rules" class="btn icon-btn mr-15 right" onclick="thwdpfDeleteSelectedRules(this, '<?php echo $this->context; ?>')" ><i class="dashicons dashicons-trash"></i><?php esc_html_e('Delete', 'discount-and-dynamic-pricing') ?></button>
+	            <button type="button" name="delete_rules" class="btn icon-btn mr-15 right" onclick="thwdpfDeleteSelectedRules(this, '<?php echo esc_attr($this->context); ?>')" ><i class="dashicons dashicons-trash"></i><?php esc_html_e('Delete', 'discount-and-dynamic-pricing') ?></button>
 	        </th>
 	    </tr>  
     	<?php 
@@ -93,15 +93,15 @@ abstract class THWDPF_Admin_Settings_Rules extends THWDPF_Admin_Settings{
 			$checked = $enabled === 'yes' ? 'checked="checked"' : '';
 
 			?>
-			<tr class="row_<?php echo $i; echo $enabled ? '' : ' thpladmin-disabled' ?>">
+			<tr class="row_<?php echo esc_attr($i); echo $enabled ? '' : ' thpladmin-disabled' ?>">
 				<td class="cell-sort sort ui-sortable-handle">
-					<input type="hidden" name="i_name[<?php echo $i; ?>]" class="i_name" value="<?php echo $name; ?>" >
-					<input type="hidden" name="i_priority[<?php echo $i; ?>]" class="i_priority" value="<?php echo $i; ?>" >
-					<input type="hidden" name="r_props[<?php echo $i; ?>]" class="r_props" value='<?php echo $rule_json; ?>' >
-	            	<input type="hidden" name="r_restrictions[<?php echo $i; ?>]" class="r_restrictions" value="<?php echo $restriction_json; ?>" >
+					<input type="hidden" name="i_name[<?php echo esc_attr($i); ?>]" class="i_name" value="<?php echo esc_attr($name); ?>" >
+					<input type="hidden" name="i_priority[<?php echo esc_attr($i); ?>]" class="i_priority" value="<?php echo esc_attr($i); ?>" >
+					<input type="hidden" name="r_props[<?php echo esc_attr($i); ?>]" class="r_props" value='<?php echo esc_attr($rule_json); ?>' >
+	            	<input type="hidden" name="r_restrictions[<?php echo esc_attr($i); ?>]" class="r_restrictions" value="<?php echo esc_attr($restriction_json); ?>" >
 				</td>
 	            <td class="cell-select">
-	            	<input type="checkbox" name="select_rule[]" value="<?php echo $name; ?>">
+	            	<input type="checkbox" name="select_rule[]" value="<?php echo esc_attr($name); ?>">
 	            </td>
 	            <td class="cell-label"><?php esc_html_e($label, 'discount-and-dynamic-pricing'); ?></td>
 	            <td class="cell-method"><?php echo esc_html($method); ?></td>
@@ -109,14 +109,14 @@ abstract class THWDPF_Admin_Settings_Rules extends THWDPF_Admin_Settings{
 	            <td class="cell-endby"><?php echo esc_html($datetime_end); ?></td>
 	            <td class="cell-status">
 	            	<label class="switch">
-					  <input type="checkbox" name="i_enabled_<?php echo $name; ?>" value="yes" <?php echo $checked; ?> onchange="thwdpfEnableDisableRule(this, '<?php echo $name; ?>')">
+					  <input type="checkbox" name="i_enabled_<?php echo esc_attr($name); ?>" value="yes" <?php echo esc_attr($checked); ?> onchange="thwdpfEnableDisableRule(this, '<?php echo esc_js($name); ?>')">
 					  <span class="slider round"></span>
 					</label>
 	            </td>
 	            <td class="cell-actions">
 					<span class="dashicons dashicons-edit tips" data-tip="<?php esc_html_e('Edit', 'discount-and-dynamic-pricing'); ?>" onclick="thwdpfOpenEditRuleForm(this)"></span>
 					<span class="dashicons dashicons-admin-page tips" data-tip="<?php esc_html_e('Duplicate', 'discount-and-dynamic-pricing'); ?>" onclick="thwdpfOpenCopyRuleForm(this)"></span>
-					<span class="dashicons dashicons-trash tips" data-tip="<?php esc_html_e('Delete', 'discount-and-dynamic-pricing'); ?>" onclick="thwdpfDeleteRule(this, '<?php echo $name; ?>')"></span>
+					<span class="dashicons dashicons-trash tips" data-tip="<?php esc_html_e('Delete', 'discount-and-dynamic-pricing'); ?>" onclick="thwdpfDeleteRule(this, '<?php echo esc_js($name); ?>')"></span>
 				</td>
 	    	</tr>
 			<?php
@@ -132,19 +132,19 @@ abstract class THWDPF_Admin_Settings_Rules extends THWDPF_Admin_Settings{
 		$action = isset($_POST['i_action']) ? sanitize_key($_POST['i_action']) : false;
 
 		if($action === 'new' || $action === 'copy')
-			echo $this->add_discount_rule($action);	
+			echo wp_kses_post($this->add_discount_rule($action));	
 			
 		if($action === 'edit')
-			echo $this->edit_discount_rule($action);
+			echo wp_kses_post($this->edit_discount_rule($action));
 
 		if($action === 'enable_disable_rule')
-			echo $this->edit_discount_rule_status();
+			echo wp_kses_post($this->edit_discount_rule_status());
 
 		if($action === 'delete_rules')
-			echo $this->delete_selected_discount_rules();
+			echo wp_kses_post($this->delete_selected_discount_rules());
 
 		if($action === 'auto_save')
-			echo $this->auto_save_discount_rules();
+			echo wp_kses_post($this->auto_save_discount_rules());
 
 		$discount_rules = $this->get_discount_rules();
 
@@ -322,8 +322,8 @@ abstract class THWDPF_Admin_Settings_Rules extends THWDPF_Admin_Settings{
 
 				$max = max( array_map( 'absint', array_keys( $r_names ) ) );
 				for($i = 0; $i <= $max; $i++) {
-					$name = $r_names[$i];
-					$priority = $r_priorities[$i];
+					$name = sanitize_key($r_names[$i]);
+					$priority = absint($r_priorities[$i]);
 
 					$priority_map[$name] = $priority;
 				}
@@ -391,6 +391,8 @@ abstract class THWDPF_Admin_Settings_Rules extends THWDPF_Admin_Settings{
 				}else if($type === 'json'){
 					$value = trim(stripslashes($posted[$iname]));
 
+				}else if($type === 'text'){
+					$value = sanitize_text_field(esc_html(wp_unslash($posted[$iname])));
 				}else{
 					$value = sanitize_text_field($posted[$iname]);
 				}
@@ -408,7 +410,7 @@ abstract class THWDPF_Admin_Settings_Rules extends THWDPF_Admin_Settings{
 		if($action === 'new' || empty($name)){
 			$name  = $this->context === 'cart' ? 'thdpcart' : 'thdpprod';
 			$name .= mt_rand(1000,9999);
-			$name .= str_replace('-', '_', sanitize_title($label));
+			$name .= str_replace('-', '_', sanitize_key( remove_accents($label) ));
 		}
 		return $name;
 	}

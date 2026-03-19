@@ -51,8 +51,8 @@ class THWDPF_Admin_Settings_Pro extends THWDPF_Admin_Settings{
 			        <li>Feature list item 5</li>
 			    </ul>
 			    <p>
-			    	<a class="btn btn-primary-alt" target="_blank" href="<?php echo $pro_url; ?>">Upgrade to Premium Version</a>
-			    	<a class="btn btn-primary-alt ml-20" target="_blank" href="<?php echo $pro_url; ?>">Try Demo</a>
+			    	<a class="btn btn-primary-alt" target="_blank" href="<?php echo esc_url($pro_url); ?>">Upgrade to Premium Version</a>
+			    	<a class="btn btn-primary-alt ml-20" target="_blank" href="<?php echo esc_url($pro_url); ?>">Try Demo</a>
 				</p>
 			</div>
 			<div class="th-flexbox">

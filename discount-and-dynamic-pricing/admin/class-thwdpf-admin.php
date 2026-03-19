@@ -101,7 +101,7 @@ class THWDPF_Admin {
 	
 	public function output_settings(){
 		if (!current_user_can('manage_options')) {//TODO
-			wp_die( __( 'You do not have sufficient permissions to access this page.','discount-and-dynamic-pricing'));
+			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.','discount-and-dynamic-pricing'));
 		}
 
 		echo '<div class="wrap">';
@@ -162,7 +162,7 @@ class THWDPF_Admin {
 		$review_url = 'https://wordpress.org/support/plugin/discount-and-dynamic-pricing/reviews?rate=5#new-post';
 
 		?>
-		<div id="thwdpf_review_request_notice" class="notice notice-info is-dismissible thpladmin-notice" data-nonce="<?php echo wp_create_nonce('thwdpf_review_request_notice'); ?>" data-action="thwdpf_dismiss_review_request_notice" style="display:none">
+		<div id="thwdpf_review_request_notice" class="notice notice-info is-dismissible thpladmin-notice" data-nonce="<?php echo esc_attr(wp_create_nonce('thwdpf_review_request_notice')); ?>" data-action="thwdpf_dismiss_review_request_notice" style="display:none">
 			<h3>
 				<?php esc_html_e('Just wanted to say thank you for using our Discount And Dynamic Pricing plugin in your store.', 'discount-and-dynamic-pricing') ?>
 			</h3>
@@ -172,11 +172,11 @@ class THWDPF_Admin {
 			</p>
 
 			<p class="action-row">
-		        <button type="button" class="btn btn-primary" onclick="window.open('<?php echo $review_url; ?>', '_blank')"><?php esc_html_e('Review Now', 'discount-and-dynamic-pricing') ?></button>
+		        <button type="button" class="btn btn-primary" onclick="window.open('<?php echo esc_url($review_url); ?>', '_blank')"><?php esc_html_e('Review Now', 'discount-and-dynamic-pricing') ?></button>
 		        <button type="button" class="btn" onclick="thwdpfCloseReviewRequestNotice(this)"><?php esc_html_e('Remind Me Later', 'discount-and-dynamic-pricing') ?></button>
             	<span class="logo">
             		<a target="_blank" href="https://www.themehigh.com">
-            			<img src="<?php echo THWDPF_ASSETS_URL_ADMIN ?>css/logo.svg" />
+            			<img src="<?php echo esc_url(THWDPF_ASSETS_URL_ADMIN) ?>css/logo.svg" />
             		</a>
             	</span>
 			</p>

@@ -52,7 +52,7 @@ abstract class THWDPF_Admin_Settings{
 		foreach( $tabs as $id => $label ){
 			$active = ( $current_tab == $id ) ? 'nav-tab-active' : '';
 			$label  = esc_html__($label, 'discount-and-dynamic-pricing');
-			echo '<a class="nav-tab '.$active.'" href="'. $this->get_admin_url($id) .'">'.$label.'</a>';
+			echo '<a class="nav-tab '.esc_attr($active).'" href="'. esc_url($this->get_admin_url($id)) .'">'.esc_html($label).'</a>';
 		}
 		echo '</h2>';		
 	}
@@ -71,7 +71,7 @@ abstract class THWDPF_Admin_Settings{
 		foreach( $sections as $id => $label ){
 			$label = esc_html__($label, 'discount-and-dynamic-pricing');
 			$url = $this->get_admin_url($this->page_id, sanitize_title($id));	
-			echo '<li><a href="'. $url .'" class="'. ( $current_section == $id ? 'current' : '' ) .'">'. $label .'</a> '. (end( $array_keys ) == $id ? '' : '|') .' </li>';
+			echo '<li><a href="'. esc_url($url) .'" class="'. ( $current_section == $id ? 'current' : '' ) .'">'. esc_html($label) .'</a> '. (end( $array_keys ) == $id ? '' : '|') .' </li>';
 		}		
 		echo '</ul>';
 	}
@@ -90,7 +90,7 @@ abstract class THWDPF_Admin_Settings{
 	public function print_notices($msg, $type='updated', $return=false){
 		$notice = '<div class="thwdpf-notice '. $type .'"><p>'. esc_html__($msg, 'discount-and-dynamic-pricing') .'</p></div>';
 		if(!$return){
-			echo $notice;
+			echo wp_kses_post($notice);
 		}
 		return $notice;
 	}
@@ -121,13 +121,13 @@ abstract class THWDPF_Admin_Settings{
 	
 	public function render_form_element_h_separator($padding = 5, $colspan = 6){
 		?>
-        <tr><td colspan="<?php echo $colspan; ?>" style="border-bottom: 1px dashed #e6e6e6; padding-top: <?php echo $padding ?>px;"></td></tr>
+        <tr><td colspan="<?php echo esc_attr($colspan); ?>" style="border-bottom: 1px dashed #e6e6e6; padding-top: <?php echo esc_attr($padding) ?>px;"></td></tr>
         <?php
 	}
 	
 	public function render_form_element_h_spacing($padding = 5, $colspan = 6){
 		?>
-        <tr><td colspan="<?php echo $colspan; ?>" style="padding-top:<?php echo $padding ?>px;"></td></tr>
+        <tr><td colspan="<?php echo esc_attr($colspan); ?>" style="padding-top:<?php echo esc_attr($padding) ?>px;"></td></tr>
         <?php
 	}
 	
@@ -164,21 +164,33 @@ abstract class THWDPF_Admin_Settings{
 				$label_cell_props = !empty($args['label_cell_props']) ? $args['label_cell_props'] : '';
 				$input_cell_props = !empty($args['input_cell_props']) ? $args['input_cell_props'] : '';
 				
+				$allowed_tags = array(
+					'input'    => array( 'type' => true, 'name' => true, 'value' => true, 'style' => true, 'class' => true, 'placeholder' => true, 'onchange' => true, 'id' => true, 'checked' => true ),
+					'textarea' => array( 'name' => true, 'rows' => true, 'cols' => true, 'style' => true, 'class' => true, 'placeholder' => true ),
+					'label'    => array( 'for' => true, 'style' => true ),
+					'span'     => array( 'class' => true, 'style' => true ),
+					'br'       => array(),
+				);
 				?>
-				<td <?php echo $label_cell_props ?> >
-					<?php echo $flabel; echo $required_html; 
+				<td <?php echo wp_kses_post($label_cell_props) ?> >
+					<?php echo esc_html($flabel); echo wp_kses_post($required_html); 
 					if($sub_label){
 						?>
-						<br/><span class="thpladmin-subtitle"><?php echo $sub_label; ?></span>
+						<br/><span class="thpladmin-subtitle"><?php echo esc_html($sub_label); ?></span>
 						<?php
 					}
 					?>
 				</td>
 				<?php $this->render_form_element_tooltip($tooltip); ?>
-				<td <?php echo $input_cell_props ?> ><?php echo $field_html; ?></td>
+				<td <?php echo wp_kses_post($input_cell_props) ?> ><?php echo wp_kses($field_html, $allowed_tags); ?></td>
 				<?php
 			}else{
-				echo $field_html;
+				$allowed_tags = array(
+					'input'    => array( 'type' => true, 'name' => true, 'value' => true, 'style' => true, 'class' => true, 'placeholder' => true, 'onchange' => true, 'id' => true, 'checked' => true ),
+					'textarea' => array( 'name' => true, 'rows' => true, 'cols' => true, 'style' => true, 'class' => true, 'placeholder' => true ),
+					'label'    => array( 'for' => true, 'style' => true ),
+				);
+				echo wp_kses($field_html, $allowed_tags);
 			}
 		}
 	}
